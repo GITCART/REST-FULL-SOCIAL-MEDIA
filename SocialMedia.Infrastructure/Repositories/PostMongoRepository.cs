@@ -10,9 +10,9 @@ namespace SocialMedia.Infrastructure.Repositories
 {
     public class PostMongoRepository : IPostRepository
     {
-        public async Task<IEnumerable<Publicacion>> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
-            var posts = Enumerable.Range(1, 10).Select(x => new Publicacion
+            var posts = Enumerable.Range(1, 10).Select(x => new Post
             {
                 /*PostId = x,
                 Description = $"Description{x}",
