@@ -31,7 +31,7 @@ namespace SocialMedia.Api
         {
             services.AddControllers();
 
-            // connection with context for SQL
+            // connection with context for SQL SERVER
             services.AddDbContext<SocialMediaApiContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia"))
                 ); ;
