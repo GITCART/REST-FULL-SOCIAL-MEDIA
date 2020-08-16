@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,12 +30,19 @@ namespace SocialMedia.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            // Register AUTOMAPPER in the Project
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Avoid circular reference of entities
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
             // connection with context for SQL SERVER
             services.AddDbContext<SocialMediaApiContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia"))
-                ); ;
+            );
 
             // inyect dependecy de POST-RESPOSITORY
             services.AddTransient<IPostRepository, PostRepository>();

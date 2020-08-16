@@ -10,6 +10,11 @@ namespace SocialMedia.Infrastructure.Repositories
 {
     public class PostMongoRepository : IPostRepository
     {
+        public Task<Post> GetPost(int idPost)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Post>> GetPosts()
         {
             var posts = Enumerable.Range(1, 10).Select(x => new Post
@@ -24,6 +29,11 @@ namespace SocialMedia.Infrastructure.Repositories
             await Task.Delay(10);
 
             return posts;
+        }
+
+        public Task InsertPost(Post post)
+        {
+            throw new NotImplementedException();
         }
     }
 }
