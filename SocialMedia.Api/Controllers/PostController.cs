@@ -31,11 +31,8 @@ namespace SocialMedia.Api.Controllers
 
             /*var postDtos = posts.Select(post => new PostDto{
                 Date = post.Date,
-                Description = post.Description,
-                Image = post.Image,
-                UserId = post.UserId
+                Description = post.Description
             });
-            
              // Remplace with _mapper : AutoMapper
              */
 
@@ -57,6 +54,12 @@ namespace SocialMedia.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertPost(PostDto postDto)
         {
+            // Replace [ApiController] when desactive in class Startup
+            /*if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }*/
+
             var post = _mapper.Map<Post>(postDto);
 
             await _postRepository.InsertPost(post);
