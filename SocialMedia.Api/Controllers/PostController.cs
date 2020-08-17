@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Api.Responses;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
@@ -38,7 +39,9 @@ namespace SocialMedia.Api.Controllers
 
             var postDtos = _mapper.Map<IEnumerable<PostDto>>(posts);
 
-            return Ok(postDtos);
+            var response = new ApiResponse<IEnumerable<PostDto>>(postDtos);
+
+            return Ok(response);
         }
 
         [HttpGet("{idPost}")]
@@ -48,13 +51,15 @@ namespace SocialMedia.Api.Controllers
 
             var postDto = _mapper.Map<PostDto>(post);
 
-            return Ok(postDto);
+            var response = new ApiResponse<PostDto>(postDto);
+
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> InsertPost(PostDto postDto)
         {
-            // Replace [ApiController] when desactive in class Startup
+            // Replace [ApiController] when desactive in class Startup:::: moved to ValidationFilter class
             /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -64,7 +69,27 @@ namespace SocialMedia.Api.Controllers
 
             await _postRepository.InsertPost(post);
 
-            return Ok(postDto);
+            postDto = _mapper.Map<PostDto>(post);
+            var response = new ApiResponse<PostDto>(postDto);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePost(int idPost, PostDto postDto) {
+
+            var post = _mapper.Map<Post>(postDto);
+            post.PostId = idPost;
+
+            var result = await _postRepository.UpdatePost(post);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
+        }
+
+        [HttpDelete("{idPost}")]
+        public async Task<IActionResult> DeletePost(int idPost) {
+            var result = await _postRepository.DeletePost(idPost);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
         }
     }
 }

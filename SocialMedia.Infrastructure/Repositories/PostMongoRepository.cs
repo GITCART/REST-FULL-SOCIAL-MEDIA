@@ -10,6 +10,11 @@ namespace SocialMedia.Infrastructure.Repositories
 {
     public class PostMongoRepository : IPostRepository
     {
+        public Task<bool> DeletePost(int idPost)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Post> GetPost(int idPost)
         {
             throw new NotImplementedException();
@@ -32,6 +37,11 @@ namespace SocialMedia.Infrastructure.Repositories
         }
 
         public Task InsertPost(Post post)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdatePost(Post post)
         {
             throw new NotImplementedException();
         }
