@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Core.Services;
 using SocialMedia.Infrastructure.Data;
 using SocialMedia.Infrastructure.Filters;
 using SocialMedia.Infrastructure.Repositories;
@@ -46,6 +47,8 @@ namespace SocialMedia.Api
 
             // inyect dependecy de POST-RESPOSITORY
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             //Validate entities
             services.AddMvc( options =>
