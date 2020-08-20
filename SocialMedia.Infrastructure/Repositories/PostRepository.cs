@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
+
+    // class is no longer used
     public class PostRepository : IPostRepository
     {
 
@@ -27,7 +29,7 @@ namespace SocialMedia.Infrastructure.Repositories
         public async Task<Post> GetPost(int idPost)
         {
             var posts = await _socialMediaApiContext.Posts.FirstOrDefaultAsync(
-                    post => post.PostId == idPost
+                    post => post.Id == idPost
                 );
 
             return posts;
@@ -41,7 +43,7 @@ namespace SocialMedia.Infrastructure.Repositories
 
         public async Task<bool> UpdatePost(Post post)
         {
-            var currentPost = await GetPost(post.PostId);
+            var currentPost = await GetPost(post.Id);
             currentPost.Date = post.Date;
             currentPost.Description = post.Description;
             currentPost.Image = post.Image;

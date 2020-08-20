@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
+
+    //class is no longer used
     public class PostMongoRepository : IPostRepository
     {
         public Task<bool> DeletePost(int idPost)

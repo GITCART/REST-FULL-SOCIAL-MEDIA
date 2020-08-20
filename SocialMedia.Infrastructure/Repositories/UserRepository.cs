@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
+    //class is no longer used
     public class UserRepository: IUserRepository
     {
 
@@ -27,7 +28,7 @@ namespace SocialMedia.Infrastructure.Repositories
         public async Task<User> GetUser(int idUser)
         {
             var user = await _socialMediaApiContext.Users.FirstOrDefaultAsync(
-                    user => user.UserId == idUser
+                    user => user.Id == idUser
                 );
 
             return user;

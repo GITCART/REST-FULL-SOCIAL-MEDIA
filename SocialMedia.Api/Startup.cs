@@ -46,9 +46,12 @@ namespace SocialMedia.Api
             );
 
             // inyect dependecy de POST-RESPOSITORY
-            services.AddTransient<IPostRepository, PostRepository>();
+            //services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IPostService, PostService>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            //services.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IUnitofWork, UnitofWork>();
 
             //Validate entities
             services.AddMvc( options =>
