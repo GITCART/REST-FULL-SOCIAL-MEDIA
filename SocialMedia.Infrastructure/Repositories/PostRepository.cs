@@ -3,22 +3,28 @@ using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infrastructure.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
 
     // class is no longer used
-    public class PostRepository : IPostRepository
+    public class PostRepository : BaseRepository<Post>, IPostRepository
     {
 
-        private readonly SocialMediaApiContext _socialMediaApiContext;
 
-        public PostRepository(SocialMediaApiContext socialMediaApiContext)
+        public PostRepository(SocialMediaApiContext socialMediaApiContext): base(socialMediaApiContext)
         {
-            _socialMediaApiContext = socialMediaApiContext;
         }
 
+        public async Task<IEnumerable<Post>> GetPostsByUser(int idUser)
+        {
+            return  await _entities.Where(user => user.UserId == idUser).ToListAsync();
+        }
+
+
+        /*
         public async Task<IEnumerable<Post>> GetPosts()
         {
             var posts = await _socialMediaApiContext.Posts.ToListAsync();
@@ -59,6 +65,6 @@ namespace SocialMedia.Infrastructure.Repositories
 
             int rows = await _socialMediaApiContext.SaveChangesAsync();
             return rows > 0;
-        }
+        }*/
     }
 }

@@ -26,9 +26,9 @@ namespace SocialMedia.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        public IActionResult GetPosts()
         {
-            var posts = await _postService.GetPosts();
+            var posts = _postService.GetPosts();
 
             /*var postDtos = posts.Select(post => new PostDto{
                 Date = post.Date,

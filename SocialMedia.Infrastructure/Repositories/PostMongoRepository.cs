@@ -10,7 +10,7 @@ namespace SocialMedia.Infrastructure.Repositories
 {
 
     //class is no longer used
-    public class PostMongoRepository : IPostRepository
+    public class PostMongoRepository //: IPostRepository
     {
         public Task<bool> DeletePost(int idPost)
         {

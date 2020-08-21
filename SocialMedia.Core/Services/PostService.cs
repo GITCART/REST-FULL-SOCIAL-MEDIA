@@ -1,7 +1,9 @@
 ﻿using SocialMedia.Core.Entities;
+using SocialMedia.Core.Exceptions;
 using SocialMedia.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,26 +26,42 @@ namespace SocialMedia.Core.Services
 
             if (user == null)
             {
-                throw new Exception("User doesn't exist");
+                throw new BusnissException("User doesn't exist");
             }
+
+            var userPost = await _unitofWork.PostRepository.GetPostsByUser(post.UserId);
+
+            if (userPost.Count() < 10)
+            {
+                var lastPost = userPost.OrderByDescending(post => post.Date).FirstOrDefault();
+                if ((DateTime.Now - lastPost.Date).TotalDays < 7)
+                {
+                    throw new BusnissException("You are not able to publish the post");
+                }
+            }
+
 
             if (post.Description.Contains("sexo"))
             {
-                throw new Exception("Content not allowed");
+                throw new BusnissException("Content not allowed");
             }
 
             await _unitofWork.PostRepository.Add(post);
+            await _unitofWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdatePost(Post post)
         {
-             await _unitofWork.PostRepository.Update(post);
+              _unitofWork.PostRepository.Update(post);
+            await _unitofWork.SaveChangesAsync();
+
             return true;
         }
 
         public async Task<bool> DeletePost(int idPost)
         {
             await _unitofWork.PostRepository.Delete(idPost);
+            await _unitofWork.SaveChangesAsync();
             return true;
         }
 
@@ -52,9 +70,9 @@ namespace SocialMedia.Core.Services
            return await _unitofWork.PostRepository.GetById(idPost);
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public IEnumerable<Post> GetPosts()
         {
-            return await _unitofWork.PostRepository.GetAll();
+            return  _unitofWork.PostRepository.GetAll();
         }
        
     }

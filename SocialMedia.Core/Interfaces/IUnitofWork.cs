@@ -6,7 +6,7 @@ namespace SocialMedia.Core.Interfaces
 {
     public interface IUnitofWork: IDisposable
     {
-        IRepository<Post> PostRepository { get; }
+        IPostRepository PostRepository { get; }
         
         IRepository<User> UserRepository { get; }
 
