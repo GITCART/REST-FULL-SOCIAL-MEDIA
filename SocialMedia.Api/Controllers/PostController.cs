@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SocialMedia.Api.Responses;
+using SocialMedia.Core.CustomEntities;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
@@ -40,10 +42,22 @@ namespace SocialMedia.Api.Controllers
             });
              // Remplace with _mapper : AutoMapper
              */
-
+            /* commet for page*/
             var postDtos = _mapper.Map<IEnumerable<PostDto>>(posts);
 
             var response = new ApiResponse<IEnumerable<PostDto>>(postDtos);
+
+            var metadata = new
+            {
+                posts.TotalCount,
+                posts.PageSize,
+                posts.CurrentPage,
+                posts.TotalPages,
+                posts.HasNextPage,
+                posts.HasPreviousPage
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
             return Ok(response);
         }
